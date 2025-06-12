@@ -25,7 +25,7 @@ def build_ats(rpy_files='',overwrite=False) -> dict:
     out_dict = {}
     game_folder = renpy_media_converter.utils.get_config.Config().game_folder
     game_folder = pathlib.Path(game_folder)
-    audio_folder = game_folder.joinpath('audio')
+    audio_folder = renpy_media_converter.utils.get_config.Config().audio_folder
     if not renpy_media_converter.utils.read_write.check_audio_trans_exists() or overwrite:       
         for file in rpy_files:
             with open(file,mode='r') as f:
@@ -39,7 +39,7 @@ def build_ats(rpy_files='',overwrite=False) -> dict:
                         duration = round(len(pydub.AudioSegment.from_file(full_path))/1000,2)
                         out_dict[func_name] = [file_name,duration]
                     except FileNotFoundError:
-                        print('cant find',file_name,'for',func_name)
+                        print(f'cant find {file_name} in {audio_folder} for {func_name}')
                         duration = 0
         renpy_media_converter.utils.read_write.write_audio_trans_file(out_dict)
     else:
