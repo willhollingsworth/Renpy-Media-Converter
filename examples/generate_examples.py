@@ -42,6 +42,6 @@ def create_test_sound(folder: str = "sounds") -> None:
 
 if __name__ == "__main__":
     image_folder = r"game/images"
-    sound_folder = r"game/sounds"
+    sound_folder = r"game/audio"
     create_test_image_sequence(image_folder)
     create_test_sound(sound_folder)
