@@ -1,0 +1,10 @@
+[project]
+name = "renpy-media-converter"
+version = "0.1.0"
+description = "Convert Renpy image sequences to video files."
+readme = "README.md"
+requires-python = ">=3.10,<3.13"
+dependencies = [
+    "pillow>=11.2.1",
+    "pydub>=0.25.1",
+]
