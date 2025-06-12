@@ -28,14 +28,23 @@ import subprocess
 import time
 import json
 
+if __name__ == '__main__':
+    ''' fix for running a module as a script, '''
+    import sys
+    from os.path import dirname as up
+    p_dir = up(up(__file__))
+    sys.path.append(p_dir) 
+
+from renpy_media_converter.utils import get_config
+
 base = 'cmd /c'
 
 
 class Create_video():
-    def __init__(self,image_folder='',output_folder=''):
+    def __init__(self):
         self.ffmpeg_path = r'C:\Apps\ffmpeg-20200831-4a11a6f-win64-static\bin\ffmpeg.exe'
-        self.image_folder = image_folder
-        self.output_folder = output_folder
+        self.image_folder = get_config.Config().image_folder
+        self.output_folder = get_config.Config().output_folder
         self.img_seqs = self.read_img_seq_file()
 
     def img_seq_args(self):
@@ -81,7 +90,7 @@ class Create_video():
         print(target, 'processed in',round(time.time() - start,1),'seconds \t',result.split('\n')[-2])
 
     def read_img_seq_file(self):
-        file_path = 'image_sequences.json'
+        file_path  = get_config.Config().img_seqs_json
         img_seqs = {}
         with open(file_path,'r') as f:
             img_seqs = json.load(f)
@@ -109,10 +118,8 @@ class Create_video():
         print(target_file_name, 'last frame output in',round(time.time() - start,1),'seconds \t',result.split('\n')[-2])
 
 def test_create_img_seq_video():
-    image_folder = r'D:\Games\Test_Renpy_game\images'
-    output_path = r'D:\Gamese\dev\video_outputs'
-    target = 'example1'
-    create_video = Create_video(image_folder, output_path)
+    target = 'looping1'
+    create_video = Create_video()
     create_video.convert_image_sequence(target)
 
 def test_render_last_frame():
