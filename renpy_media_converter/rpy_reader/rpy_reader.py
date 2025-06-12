@@ -63,11 +63,17 @@ class read_image_sequences():
             output_lines.append(line.replace('\n','')[4:])
         return output_lines
 
-    def read_txt_file(self,file_path:str) -> list[str]:
-        with open(file_path,mode='r') as f:
-            lines = f.readlines()
-        return lines
-    
+    def read_txt_file(self, file_path: str) -> list[str]:
+        try:
+            # Convert to Path object and resolve any path issues
+            path = pathlib.Path(file_path).resolve()
+            with open(path, mode='r', encoding='utf-8') as f:
+                return f.readlines()
+        except FileNotFoundError as e:
+            logging.error(f"File not found: {file_path}")
+            logging.error(f"Resolved path: {pathlib.Path(file_path).resolve()}")
+            raise
+
     def get_image_sequences(self,file_path,start:int=0,stop:int=0):
         ''' read rpy file and extract image sequence details'''
         all_sequences = {}
@@ -95,6 +101,9 @@ class read_image_sequences():
         return all_sequences
     
     def return_first_anim(self):
+        if not self.img_seqs:
+            logging.error("No image sequences found")
+            return None
         first_anim_key = list(self.img_seqs.keys())[0]
         anim = self.img_seqs[first_anim_key]
         anim['name'] = first_anim_key
