@@ -41,7 +41,8 @@ class read_image_sequences():
         '''process all rpy files, write results to json file'''
         image_sequences = {}
         for file in self.rpy_files:
-            new_sequences = self.get_image_sequences(self.game_folder.joinpath(file))
+            file_path = pathlib.Path(file)
+            new_sequences = self.get_image_sequences(file_path)
             image_sequences.update(new_sequences)
         log_msg = f'{len(image_sequences)} img sequences found'
         logging.info(log_msg)
