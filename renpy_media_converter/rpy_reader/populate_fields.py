@@ -106,8 +106,9 @@ class populate_img_seqs:
         
     def get_last_letter_index(self,str:str) -> int:
         '''given a string find the index of the last letter'''
+        numbers = '0123456789'
         for i,c in enumerate(str[::-1]):
-            if c.isalpha():
+            if c not in numbers:
                 return -i
         return False
 
